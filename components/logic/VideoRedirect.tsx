@@ -19,7 +19,7 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
         const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
 
         const appScheme = `filedock://video/${videoId}`; // Custom Scheme
-        // const playStoreUrl = "https://play.google.com/store/apps/details?id=com.filedock.user";
+        // const playStoreUrl = "https://play.google.com/store/apps/details?id=com.ignito.filedockuser";
         // const appStoreUrl = "https://apps.apple.com/app/filedock/id123456789";
         const fallbackUrl = "/"; // Landing Page
 
@@ -78,7 +78,7 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
                     </div>
 
                     <div className="space-y-3">
-                        <Button className="w-full h-12 text-base font-semibold shadow-lg shadow-brand-500/20" onClick={() => window.open('https://play.google.com/store/apps/details?id=com.filedock.user', '_blank')}>
+                        <Button className="w-full h-12 text-base font-semibold shadow-lg shadow-brand-500/20" onClick={() => window.open('https://play.google.com/store/apps/details?id=com.ignito.filedockuser', '_blank')}>
                             <Smartphone className="w-4 h-4 mr-2" /> Open in FileDock App
                         </Button>
 
@@ -88,7 +88,7 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
-                            <Button variant="outline" className="h-10 text-xs" onClick={() => window.open('https://play.google.com/store/apps/details?id=com.filedock.user', '_blank')}>
+                            <Button variant="outline" className="h-10 text-xs" onClick={() => window.open('https://play.google.com/store/apps/details?id=com.ignito.filedockuser', '_blank')}>
                                 Google Play
                             </Button>
                             <Button variant="outline" className="h-10 text-xs" onClick={() => window.open('https://apps.apple.com/app/filedock', '_blank')}>
