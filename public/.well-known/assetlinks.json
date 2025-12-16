@@ -7,7 +7,8 @@
             "namespace": "android_app",
             "package_name": "com.ignito.filedockuser",
             "sha256_cert_fingerprints": [
-                "51:BA:5A:28:9B:2A:6B:AA:FA:A6:62:3D:FE:D8:0D:CD:0F:F1:C2:D9:5B:37:B6:08:B6:CF:19:B1:79:EB:DF:1A"
+                "51:BA:5A:28:9B:2A:6B:AA:FA:A6:62:3D:FE:D8:0D:CD:0F:F1:C2:D9:5B:37:B6:08:B6:CF:19:B1:79:EB:DF:1A",
+                "7D:DC:73:8E:D9:BF:1E:2A:B9:B5:5D:BA:84:1B:60:AE:AF:C2:C7:F9:50:67:00:F2:90:9C:9D:74:D0:01:40:DB"
             ]
         }
     }

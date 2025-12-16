@@ -18,7 +18,7 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
         const isAndroid = /android/i.test(userAgent);
         const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
 
-        const appScheme = `filedock://video/${videoId}`; // Custom Scheme
+        const appScheme = `intent://video/${videoId}#Intent;scheme=filedock;package=com.ignito.filedockuser;end`; // Robust Intent URL
         // const playStoreUrl = "https://play.google.com/store/apps/details?id=com.ignito.filedockuser";
         // const appStoreUrl = "https://apps.apple.com/app/filedock/id123456789";
         const fallbackUrl = "/"; // Landing Page
