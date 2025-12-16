@@ -4,9 +4,10 @@ import { usePathname } from "next/navigation";
 import VideoRedirect from "@/components/logic/VideoRedirect";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Navbar from "@/components/landing/Navbar";
+import Footer from "@/components/landing/Footer";
 
 export default function NotFound() {
-
     const pathname = usePathname();
 
     // Logic: Identify video IDs from root (filedock.in/ID) or legacy /v/ path (filedock.in/v/ID)
@@ -26,9 +27,14 @@ export default function NotFound() {
 
     if (videoId) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4 text-center">
-                <VideoRedirect videoId={videoId} />
-            </div>
+            <main className="flex flex-col min-h-screen bg-background">
+                <Navbar />
+                <div className="flex-grow flex flex-col items-center justify-center p-4 pt-20">
+                    {/* pt-20 added to account for fixed navbar height */}
+                    <VideoRedirect videoId={videoId} />
+                </div>
+                <Footer />
+            </main>
         );
     }
 
