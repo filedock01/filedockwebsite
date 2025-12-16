@@ -106,10 +106,21 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
                         <p className="text-sm text-muted-foreground">1.2 GB • Shared via FileDock</p>
                     </div>
 
+
+
                     <div className="space-y-3">
-                        <Button className="w-full h-12 text-base font-semibold shadow-lg shadow-brand-500/20" onClick={() => window.open('https://play.google.com/store/apps/details?id=com.ignito.filedockuser', '_blank')}>
+                        <Button className="w-full h-12 text-base font-semibold shadow-lg shadow-brand-500/20" onClick={() => {
+                            // Manual trigger of the intent
+                            // Re-calculate scheme here since we can't access the one from useEffect
+                            const currentUrlObj = new URL(window.location.href);
+                            currentUrlObj.searchParams.set('fallback', 'true');
+                            const fallbackUrl = currentUrlObj.toString();
+                            const scheme = `intent://filedock.in/${videoId}#Intent;scheme=https;package=com.ignito.filedockuser;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`;
+                            window.location.href = scheme;
+                        }}>
                             <Smartphone className="w-4 h-4 mr-2" /> Open in FileDock App
                         </Button>
+
 
                         <div className="relative my-4">
                             <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
@@ -125,6 +136,7 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
                             </Button>
                         </div>
                     </div>
+
 
                     <div className="mt-6 text-center">
                         <Link href="/" className="text-xs text-muted-foreground hover:text-brand-600 transition-colors">
