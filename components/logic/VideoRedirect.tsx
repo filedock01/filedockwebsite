@@ -12,33 +12,41 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
     const router = useRouter();
     const [status, setStatus] = useState("Checking for app...");
 
+
     useEffect(() => {
-        // Basic Deep Linking Logic
+        // Deep Linking Logic
         const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
         const isAndroid = /android/i.test(userAgent);
         const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
 
-        const appScheme = `intent://video/${videoId}#Intent;scheme=filedock;package=com.ignito.filedockuser;end`; // Robust Intent URL
-        // const playStoreUrl = "https://play.google.com/store/apps/details?id=com.ignito.filedockuser";
-        // const appStoreUrl = "https://apps.apple.com/app/filedock/id123456789";
-        const fallbackUrl = "/"; // Landing Page
+        // Current URL to fallback to (stay on this page)
+        const currentUrl = window.location.href;
+
+        // Intent URL with Fallback to CURRENT PAGE (prevents auto Play Store redirect)
+        // We add S.browser_fallback_url so Android stays here if app is missing.
+        const appScheme = `intent://filedock.in/${videoId}#Intent;scheme=https;package=com.ignito.filedockuser;S.browser_fallback_url=${encodeURIComponent(currentUrl)};end`;
 
         let timeout: NodeJS.Timeout;
 
         const tryOpenApp = () => {
-            const start = Date.now();
-
-            // Attempt to open the app
-            window.location.href = appScheme;
-
-            // If user is still here after a timeout, it likely failed
-            timeout = setTimeout(() => {
-                const elapsed = Date.now() - start;
-                if (elapsed < 2000 && !document.hidden) {
-                    // App didn't open (or user is back), Show File UI
+            if (isAndroid) {
+                // On Android, use the Intent URL
+                window.location.href = appScheme;
+                // We don't need a timeout redirect because the Intent handles the fallback
+                // We just show the UI after a short delay in case the browser stays here
+                timeout = setTimeout(() => {
                     setStatus("Download FileDock to watch");
-                }
-            }, 1500);
+                }, 500);
+            } else if (isIOS) {
+                // iOS Universal Link check (simplified)
+                window.location.href = `https://filedock.in/${videoId}`;
+                timeout = setTimeout(() => {
+                    setStatus("Download FileDock to watch");
+                }, 2000);
+            } else {
+                // Desktop
+                setStatus("Download FileDock to watch");
+            }
         };
 
         // Auto-attempt on mount
@@ -46,6 +54,7 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
 
         return () => clearTimeout(timeout);
     }, [videoId, router]);
+
 
     return (
         <div className="max-w-md w-full animate-fade-in-up">
