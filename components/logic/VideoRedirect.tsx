@@ -19,26 +19,45 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
         const isAndroid = /android/i.test(userAgent);
         const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
 
-        // Current URL to fallback to (stay on this page)
-        const currentUrl = window.location.href;
 
-        // Intent URL with Fallback to CURRENT PAGE (prevents auto Play Store redirect)
-        // We add S.browser_fallback_url so Android stays here if app is missing.
-        const appScheme = `intent://filedock.in/${videoId}#Intent;scheme=https;package=com.ignito.filedockuser;S.browser_fallback_url=${encodeURIComponent(currentUrl)};end`;
+        // Current URL
+        const currentUrlObj = new URL(window.location.href);
+        // Add a query param to the fallback URL so we know we've failing already
+        currentUrlObj.searchParams.set('fallback', 'true');
+        const fallbackUrl = currentUrlObj.toString();
+
+        // Intent URL (Android)
+        // S.browser_fallback_url will point to proper URL with ?fallback=true
+        const appScheme = `intent://filedock.in/${videoId}#Intent;scheme=https;package=com.ignito.filedockuser;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`;
 
         let timeout: NodeJS.Timeout;
 
         const tryOpenApp = () => {
+            // ROBUST LOOP CHECK:
+            // If URL has ?fallback=true, it means we already tried opening the app,
+            // the intent failed, and Android redirected us back here.
+            // So we STOP and just show the download button.
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('fallback') === 'true') {
+                console.log("Fallback detected. stopping auto-redirect.");
+                setStatus("Download FileDock to watch");
+                return;
+            }
+
             if (isAndroid) {
                 // On Android, use the Intent URL
                 window.location.href = appScheme;
-                // We don't need a timeout redirect because the Intent handles the fallback
-                // We just show the UI after a short delay in case the browser stays here
+
+                // Fallback timeout not strictly needed with browser_fallback_url, 
+                // but good for UI feedback if intent doesn't fire immediately
                 timeout = setTimeout(() => {
+                    // If we are still here, intent *might* have failed or user ignored it.
+                    // But usually fallback_url handles the reload.
                     setStatus("Download FileDock to watch");
-                }, 500);
+                }, 2500);
             } else if (isIOS) {
-                // iOS Universal Link check (simplified)
+                // iOS Universal Link check
+                // ... (iOS doesn't use the same Intent system, keep as is for now)
                 window.location.href = `https://filedock.in/${videoId}`;
                 timeout = setTimeout(() => {
                     setStatus("Download FileDock to watch");
@@ -51,6 +70,7 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
 
         // Auto-attempt on mount
         tryOpenApp();
+
 
         return () => clearTimeout(timeout);
     }, [videoId, router]);
