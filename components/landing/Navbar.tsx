@@ -45,11 +45,12 @@ export default function Navbar() {
                 </div>
 
                 <div className="hidden md:flex items-center">
-                    <Link href="#download" passHref>
+                    <Link href="https://play.google.com/store/apps/details?id=com.ignito.filedockuser" target="_blank">
                         <Button className="font-semibold bg-brand-500 hover:bg-black text-white shadow-lg shadow-slate-900/20 rounded-full px-6 h-10 text-sm transition-transform hover:scale-105">
-                            Get App
+                            Download The App
                         </Button>
                     </Link>
+                  
                 </div>
 
                 {/* Mobile Navigation */}
@@ -80,7 +81,7 @@ export default function Navbar() {
                                     </Link>
                                 ))}
                                 <div className="pt-6">
-                                    <Link href="#download" className="w-full block">
+                                    <Link href="https://play.google.com/store/apps/details?id=com.ignito.filedockuser" target="_blank" className="w-full block">
                                         <Button className="w-full font-bold text-lg bg-slate-900 hover:bg-black text-white shadow-xl shadow-slate-900/20 rounded-2xl h-14">
                                             Download App
                                         </Button>

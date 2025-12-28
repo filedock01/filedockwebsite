@@ -131,9 +131,9 @@ export default function VideoRedirect({ videoId }: { videoId: string }) {
                             <Button variant="outline" className="h-10 text-xs" onClick={() => window.open('https://play.google.com/store/apps/details?id=com.ignito.filedockuser', '_blank')}>
                                 Google Play
                             </Button>
-                            <Button variant="outline" className="h-10 text-xs" onClick={() => window.open('https://apps.apple.com/app/filedock', '_blank')}>
+                            {/* <Button variant="outline" className="h-10 text-xs" onClick={() => window.open('https://apps.apple.com/app/filedock', '_blank')}>
                                 App Store
-                            </Button>
+                            </Button> */}
                         </div>
                     </div>
 

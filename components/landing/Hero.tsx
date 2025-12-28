@@ -36,9 +36,9 @@ export default function Hero() {
 
                         {/* CTAs */}
                         <div className="flex flex-col sm:flex-row items-center gap-4 animate-fade-in-up w-full sm:w-auto px-4 sm:px-0 mb-10" style={{ animationDelay: "300ms" }}>
-                            <Link href="#download" className="w-full sm:w-auto">
+                            <Link href="https://play.google.com/store/apps/details?id=com.ignito.filedockuser" target="_blank" className="w-full sm:w-auto">
                                 <Button size="lg" className="w-full sm:w-auto rounded-full px-8 h-12 lg:h-14 text-base lg:text-lg shadow-2xl shadow-brand-500/20 bg-brand-600 hover:bg-brand-700 hover:scale-105 transition-all">
-                                    Get the Apps <Smartphone className="ml-2 h-5 w-5" />
+                                    Download The App<Smartphone className="ml-2 h-5 w-5" />
                                 </Button>
                             </Link>
                             <Link href="#features" className="w-full sm:w-auto">
